@@ -32,7 +32,7 @@
 - `2ef02c6` (PR #6, nhánh `cp2/ho-so-muc-7`): nháp mục 7, mục 4–6 trạng thái `Chưa`.
 - `6ad1797` (nhánh `cp3/c-nhan-nguoi-2`, gộp vào `bang_loi.md` qua PR #15): cột "Nhãn người 2" của 20 ca.
 - `0a92aab` (nhánh `cp5/ho-so-final`, gộp vào đề xuất qua PR #21): dòng đề xuất Go có điều kiện.
-- Kiểm tra cuối: `grep -rni production report/team` không in gì; hồ sơ đủ bảy mục, mục 1, 2, 3, 7 ghi `Giả lập`.
+- Kiểm tra cuối: lệnh `grep` tìm từ cấm (quy tắc 5) trong `report/team` không in gì; hồ sơ đủ bảy mục, mục 1, 2, 3, 7 ghi `Giả lập`.
 
 ## 5. Công cụ AI đã dùng
 
