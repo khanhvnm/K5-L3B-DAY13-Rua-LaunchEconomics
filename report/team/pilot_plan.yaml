@@ -26,6 +26,8 @@
 # Tỉ lệ mo_lai_trong_7_ngay hiện tại và ngưỡng an toàn đã chọn:
 #   Hiện tại 4,25% (51/1.200) toàn mẫu, 3,97% (39/982) trong phạm vi noi_dia + hang_nang.
 #   Ngưỡng tuyệt đối 3% sẽ dừng pilot ngay tuần đầu, nên chọn: nhóm trợ lý cao hơn đối chứng ≥ 2 điểm, kèm trần tuyệt đối 6%.
+#   Bước 0.10 chỉ có 4 nhân viên dùng trợ lý, mức lệch 2 điểm dễ báo động giả: bước này chỉ áp dụng trần 6% và luật hoàn trùng;
+#   mức lệch ≥ 2 điểm so với đối chứng áp dụng từ bước 0.25 (≥ 10 nhân viên). Bổ sung sau câu hỏi của hội đồng NhomABC ở Gate 2a.
 
 pilot:
   owner: "Giám đốc vận hành LogiX-VN"
@@ -41,7 +43,7 @@ pilot:
     mde: 0.06                     # đánh đổi đã chấp nhận: 5 điểm không đủ mẫu với 40 nhân viên
     alpha: 0.05
     power: 0.80
-    n_per_arm: 859
+    n_per_arm: 859                # cỡ mẫu hiệu dụng; tương ứng 20 × 299 = 5.980 yêu cầu thô mỗi nhóm
     design_effect: 6.96           # m = 299 yêu cầu mỗi nhân viên
     clusters_per_arm: 20
   identifiability:
@@ -49,8 +51,8 @@ pilot:
     spillover_risk: "Trung bình: nhân viên cùng depot có thể chia sẻ câu trả lời; giảm bằng quyền truy cập theo tài khoản, log agent_suggestion_shown theo staff_id, loại khỏi phân tích nhân viên đối chứng có lượt mở trợ lý"
     predeclared: "Có: chỉ số chính, mde 0,06, alpha 0,05, ba luật dừng và decision_date chốt trong file này trước ngày bắt đầu 2026-12-07"
   stop_rules:
-    - "NẾU tỉ lệ mở lại 7 ngày của nhóm trợ lý cao hơn đối chứng ≥ 2 điểm hoặc vượt 6% (đợt chạy thử: 3,97% trong phạm vi), hoặc có ≥ 1 ca hoàn trùng tiền TRONG 3 ngày liên tiếp THÌ Giám đốc vận hành tắt trợ lý trong 30 phút và Kỹ sư trưởng agent rà trace trong 2 ngày KHÔNG THÌ không được sang bước rollout tiếp theo"
-    - "NẾU chi phí mỗi việc thành công đo từ event > 8.000 đ (0,67× của 12.000 đ, còn chỗ cho chi phí cố định 2.370 đ/việc ở nửa khối lượng) TRONG 2 tuần liên tiếp THÌ PM trợ lý hoàn phí thu hẹp về noi_dia và giới hạn 2 lần chạy (B3: rẻ nhất cho công ty) KHÔNG THÌ không được mở rộng sang bước rollout tiếp theo"
+    - "NẾU tỉ lệ mở lại 7 ngày của nhóm trợ lý vượt trần tuyệt đối 6% (đợt chạy thử: 3,97% trong phạm vi), hoặc có ≥ 1 ca hoàn trùng tiền, hoặc (chỉ từ bước 0.25, khi đã có ≥ 10 nhân viên dùng trợ lý) cao hơn đối chứng ≥ 2 điểm TRONG 3 ngày liên tiếp THÌ Giám đốc vận hành tắt trợ lý trong 30 phút, Kỹ sư trưởng agent rà trace trong 2 ngày và bật lại nếu là nhiễu KHÔNG THÌ không được sang bước rollout tiếp theo"
+    - "NẾU chi phí biến đổi mỗi việc thành công đo từ event (token, tool, phút xem lại và làm lại; không cộng 40 triệu đ/tháng cố định, khoản này thuộc quyết định mở rộng) > 8.000 đ (0,67× của 12.000 đ, còn chỗ cho chi phí cố định 2.370 đ/việc ở nửa khối lượng) TRONG 2 tuần liên tiếp (nên không kích hoạt ở bước 0.10 chỉ kéo dài 1 tuần) THÌ PM trợ lý hoàn phí thu hẹp về noi_dia và giới hạn 2 lần chạy (B3: rẻ nhất cho công ty) KHÔNG THÌ không được mở rộng sang bước rollout tiếp theo"
     - "NẾU tỉ lệ bỏ qua gợi ý (sửa + bỏ) > 40% (đợt chạy thử: 27,12%) TRONG 1 tuần THÌ Trưởng nhóm CSKH phỏng vấn 5 nhân viên và PM trợ lý hoàn phí rà 20 trace bị bỏ trong 3 ngày KHÔNG THÌ không được chuyển bước rollout"
     - "NẾU tỉ lệ được xem lại > 50% hoặc phút xem lại trung bình > 4,8 phút (mức hoà vốn B4, simulated) TRONG cả bước 0.25 THÌ Trưởng nhóm CSKH áp dụng giảm xem lại theo bậc khi tỉ lệ sửa + bỏ < 15% KHÔNG THÌ không được mở bước 0.50"
   interim_looks: "chỉ kiểm tra chỉ số an toàn (hằng ngày) và các chỉ số trong luật dừng chi phí, sử dụng (hằng tuần); không xem chỉ số chính trước decision_date"

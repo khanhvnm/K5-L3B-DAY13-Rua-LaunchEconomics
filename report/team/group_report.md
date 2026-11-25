@@ -33,7 +33,11 @@ Cách tiếp cận: mọi con số do `src/lab13.py` tính từ hai file CSV (A,
 - Bảng lỗi: đồng thuận 19/20 = 95%, ca 18 thống nhất là Ngữ cảnh.
 - Pilot: chia theo nhân viên 20 + 20, mde 0,06 (859 mỗi nhóm, DE 6,96); power 0,64 nếu tác động thật là 5 điểm.
 - **Đề xuất cuối: Go có điều kiện** (4 điều kiện, xem `ho_so_launch_v0.md`).
-- Kết quả duyệt chéo nhóm nhận được từ hội đồng: điền sau buổi duyệt chéo (điểm /30, quyết định, câu hỏi và câu trả lời).
+- **Kết quả duyệt chéo nhóm nhận được (hội đồng NhomABC):** 30/30 (10 · 10 · 10), quyết định **Go có điều kiện**.
+  - Câu hỏi của hội đồng: ở bước 0.10 (4 nhân viên), luật dừng +2 điểm so với đối chứng (dễ báo động giả) và luật chi phí (nếu cộng 40 triệu cố định lên khoảng 15.300 đ/việc) có làm dừng pilot oan ngay tuần đầu không.
+  - Câu trả lời của nhóm: luật chi phí cần 2 tuần liên tiếp nên không kích hoạt ở bước 0.10 (1 tuần), và 8.000 đ là chi phí biến đổi đo từ event, không cộng khoản cố định. Luật an toàn cần 3 ngày liên tiếp, có trần tuyệt đối 6% (nền 3,97%), hành động là tạm tắt 30 phút và rà trace 2 ngày, không huỷ pilot. Nhóm thừa nhận mức +2 điểm với 4 người dễ báo động giả và cam kết chỉ áp dụng từ bước 0.25.
+  - Góp ý của hội đồng và việc đã sửa: hồ sơ mục 4 ghi 10 event, lệch với 11 event ở `chi_so.md` (đã sửa thành 11); `pilot_plan.yaml` ghi rõ bước 0.10 chỉ dùng trần 6% và luật hoàn trùng, 8.000 đ là chi phí biến đổi, 859 là cỡ mẫu hiệu dụng (5.980 yêu cầu thô).
+- **Nhóm làm hội đồng chấm NhomABC:** xem `phieu_cham.md`.
 
 ## 5. Khó khăn và cách xử lý
 
