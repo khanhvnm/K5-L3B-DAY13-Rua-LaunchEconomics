@@ -80,5 +80,6 @@ Số tính bằng `src/lab13.py`. Mọi con số tính từ cột `_simulated` g
 
 ## B4 · Nếu phải xem lại tất cả
 
-- Chi phí mỗi việc thành công khi xem lại 100% (`noi_dia` + `hang_nang`, `948` ca có run `ok` × 5 phút, `48` ca làm lại, `900` việc thành công), so với `12.000 đ`: đạt **11.743 đ = 0,98×** (`simulated`, với `9 phút/ca` làm lại đề cho, hoà vốn khi xem lại ≤ `5,1 phút`/yêu cầu) và lên **12.415 đ = 1,03×** (`simulated`, với `15,3 phút/ca` trung bình dữ liệu, hoà vốn khi xem lại ≤ `4,8 phút`/yêu cầu).
+- Làm lại 9 phút/ca (đề cho): `948` ca có run `ok` × 5 phút + `48` ca làm lại, chia `900` việc thành công = **11.743 đ = 0,98×** của 12.000 đ [`simulated`]; hoà vốn khi xem lại ≤ `5,1 phút`/yêu cầu.
+- Làm lại 15,3 phút/ca (trung bình dữ liệu, trung vị 14,5): **12.415 đ = 1,03×** [`simulated`], tức đắt hơn nhân viên tự làm; hoà vốn khi xem lại ≤ `4,8 phút`/yêu cầu.
 - Tiền xem lại chiếm **90%** tổng chi phí nên xem lại 100% gần như xoá sạch lợi ích tiết kiệm; pilot phải học được ngưỡng giảm tỉ lệ xem lại an toàn theo bậc và thời gian xem lại có rút xuống dưới `4,8 phút`/yêu cầu được không.
