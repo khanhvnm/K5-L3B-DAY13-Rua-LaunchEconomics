@@ -17,6 +17,6 @@ Nhóm: Rua · Lớp: L3B
 **Đề xuất: Go có điều kiện** cho pilot `noi_dia` + `hang_nang`, chia theo nhân viên 20 + 20, bắt đầu 2026-12-07, quyết định 2027-01-11 (theo `pilot_plan.yaml`). Con số bất lợi đã cân nhắc: xem lại 100% đưa chi phí lên 0,98–1,03× của 12.000 đ [simulated]; power chỉ 0,64 nếu tác động thật là 5 điểm; tỉ lệ mở lại hiện tại 3,97% trong phạm vi.
 
 - Sửa khoá chống trùng (ca 20) và chỉ báo "đã hoàn" khi sổ cái trả ok (ca 7); đối soát mỗi giờ chạy thử 3 ngày với 0 ca lệch · Kỹ sư trưởng agent · kiểm tra 2026-12-04.
-- Ký chấp nhận mức chênh 6 điểm (mde 0,06, 859 yêu cầu mỗi nhóm) và power 0,64 ở mức 5 điểm · Giám đốc vận hành · kiểm tra 2026-12-02.
+- Ký chấp nhận mức chênh 6 điểm (mde 0,06, 859 yêu cầu mỗi nhóm) và power 0,64 ở mức 5 điểm; chốt phạm vi bỏ quoc_te (1,88×) và doi_tac (0,85×) [simulated] · Giám đốc vận hành · kiểm tra 2026-12-02.
 - Bật đủ 11 event có `trace_id` trong `chi_so.md` trước ngày bắt đầu; thay phút `_simulated` bằng phút xem lại, làm lại đo thật sau tuần 1 · PM trợ lý hoàn phí · kiểm tra 2026-12-04 và 2026-12-14.
-- Có kế hoạch giảm tỉ lệ xem lại theo bậc (khi tỉ lệ sửa + bỏ < 15%) và mục tiêu mỗi lần xem lại ≤ 4,8 phút, vì xem lại 100% không tiết kiệm (B4, simulated) · Trưởng nhóm CSKH · kiểm tra 2026-12-04.
+- Có kế hoạch giảm tỉ lệ xem lại theo bậc (khi tỉ lệ sửa + bỏ < 15%) và mục tiêu mỗi lần xem lại ≤ 4,8 phút, vì xem lại 100% không tiết kiệm (B4, simulated); chưa đạt thì không mở bước 0.50 · Trưởng nhóm CSKH · kiểm tra 2026-12-04.
