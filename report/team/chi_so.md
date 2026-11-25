@@ -44,5 +44,6 @@
 
 | Rủi ro | Tác động đã tính | Dấu hiệu theo dõi | Hành động | Người phụ trách |
 | --- | --- | --- | --- | --- |
-| ... | ... | ... | ... | ... |
-| ... | ... | ... | ... | ... |
+| Số ca làm lại tăng gấp đôi | +51,8%, chi phí mỗi việc thành công lên 6.787 đ [simulated] (B1) | Tỉ lệ làm lại theo tuần (`staff_rework_completed` ÷ `refund_request_created`, nhóm trợ lý) > 7%; đợt chạy thử: 4,9% (48/982) trong phạm vi | Thu hẹp về `noi_dia`, rà 20 trace làm lại gần nhất trong 3 ngày | PM trợ lý hoàn phí |
+| Phải xem lại 100% kéo dài | 11.743 đ = 0,98× của 12.000 đ; 12.415 đ = 1,03× nếu làm lại 15,3 phút/ca như dữ liệu [simulated] (B4) | % yêu cầu được xem lại (`staff_review_decision` ÷ `agent_suggestion_shown`) còn > 50% ở cuối bước rollout 0.25; phút xem lại trung bình > 4,8 phút | Giảm tỉ lệ xem lại theo bậc khi tỉ lệ sửa + bỏ < 15%; không mở bước 0.50 nếu chưa giảm được | Trưởng nhóm CSKH |
+| Khối lượng thấp hơn dự kiến | Cố định 40 triệu/tháng: +1.185 đ/việc ở 45.000 yc/tháng, +2.370 đ/việc (5.784 đ = 0,48×) nếu còn một nửa; vượt 12.000 đ nếu dưới khoảng 6.212 yc/tháng [simulated] (A4) | Số việc thành công theo tuần < 50% kế hoạch | Không mở rộng pilot; xem lại hợp đồng chi phí cố định | PM trợ lý hoàn phí |

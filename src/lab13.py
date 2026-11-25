@@ -242,6 +242,11 @@ def in_e1(reqs):
     print(f'Dùng  · bỏ qua gợi ý (sua + bo):          {bo_qua.mean() * 100:.2f}% ({bo_qua.sum()}/{len(xem)})')
     print(f'An toàn · mở lại trong 7 ngày:            {mo_lai.mean() * 100:.2f}% ({mo_lai.sum()}/{len(reqs)});'
           f' phạm vi noi_dia + hang_nang {mo_lai_pv.mean() * 100:.2f}% ({mo_lai_pv.sum()}/{len(pv)})')
+    # Mức hiện tại trong phạm vi pilot, làm mốc cho dấu hiệu theo dõi ở E2.
+    lam_lai_pv = pv['ket_qua'] == 'lam_lai'
+    xem_pv = pv['duoc_xem_lai'] == 1
+    print(f'Mốc E2 (phạm vi): tỉ lệ làm lại {lam_lai_pv.mean() * 100:.1f}% ({lam_lai_pv.sum()}/{len(pv)});'
+          f' tỉ lệ được xem lại {xem_pv.mean() * 100:.1f}% ({xem_pv.sum()}/{len(pv)})')
 
 
 if __name__ == '__main__':
