@@ -7,8 +7,8 @@
 | Chính (kết quả) | % yêu cầu đóng trong 24 giờ và không mở lại trong 7 ngày | `dong_trong_24h` bằng 1 và `mo_lai_trong_7_ngay` bằng 0, chia tổng số yêu cầu | 82,83% (994 / 1.200) |
 | Dùng | Tỉ lệ bỏ qua gợi ý | `quyet_dinh_xem_lai` là `sua` hoặc `bo`, chia số yêu cầu được xem lại | 27,12% (48 / 177) |
 | An toàn | Tỉ lệ lỗi lọt đến khách (mở lại trong 7 ngày) | `mo_lai_trong_7_ngay` bằng 1, chia tổng số yêu cầu | 4,25% (51 / 1.200); riêng phạm vi `noi_dia` + `hang_nang`: 3,97% (39 / 982) |
-| Dùng | Nhóm tự đề xuất: ... | ... | Không cần tính |
-| An toàn | Nhóm tự đề xuất: ... | ... | Không cần tính |
+| Dùng | Nhóm tự đề xuất: % yêu cầu của nhóm trợ lý được nhân viên mở gợi ý | Số `refund_request_created` có `arm = tro_ly` và có `agent_suggestion_shown` cùng `trace_id`, chia số `refund_request_created` có `arm = tro_ly` | Không cần tính |
+| An toàn | Nhóm tự đề xuất: % đơn hoàn sai tiền qua kiểm tra mẫu hằng tuần (bắt lỗi ngầm mà khách và nhân viên không thấy) | Số `audit_sample_checked` có `so_tien_da_hoan ≠ so_tien_dung`, chia số `audit_sample_checked` trong tuần (mẫu 100 đơn/tuần) | Không cần tính |
 
 - **Nhận xét số liệu chạy thử:** Chỉ số chính trong đợt chạy thử là **82,83%** (994 / 1.200 yêu cầu đóng trong 24 giờ và không mở lại trong 7 ngày); tỉ lệ bỏ qua gợi ý trong đợt chạy thử là **27,12%** (48 / 177 yêu cầu được xem lại); tỉ lệ mở lại trong 7 ngày (lỗi lọt đến khách) trong đợt chạy thử là **4,25%** trên toàn mẫu (51 / 1.200) và **3,97%** trong phạm vi pilot `noi_dia` + `hang_nang` (39 / 982). *(Lưu ý: chỉ ghi nhận kết quả trong đợt chạy thử, không kết luận trợ lý đã nâng chỉ số vì đợt chạy thử không có nhóm đối chứng).*
 
@@ -18,16 +18,25 @@
 
 | Event | Ai tạo | Thuộc tính chính | Thời điểm |
 | --- | --- | --- | --- |
-| ... | ... | ..., trace_id | ... |
-| ... | ... | ..., trace_id | ... |
-| ... | ... | ..., trace_id | ... |
-| ... | ... | ..., trace_id | ... |
-| ... | ... | ..., trace_id | ... |
-| ... | ... | ..., trace_id | ... |
+| `refund_request_created` | App khách | request_id, loai, so_tien, depot, staff_id, arm (tro_ly / doi_chung), created_at, trace_id | Khi khách gửi yêu cầu |
+| `agent_run_completed` | Agent | request_id, attempt, tokens_in, tokens_out, tool_calls, status (ok / loi), trace_id | Sau **mỗi** lần chạy, kể cả lần lỗi |
+| `agent_suggestion_shown` | Giao diện nhân viên | request_id, staff_id, so_tien_de_xuat, trace_id | Khi gợi ý hiện ra cho nhân viên |
+| `staff_review_decision` | Nhân viên | request_id, staff_id, quyet_dinh (giu / sua / bo), phut_xem_lai (đo thật), trace_id | Khi nhân viên bấm giữ, sửa hoặc bỏ |
+| `staff_rework_completed` | Nhân viên | request_id, staff_id, phut_lam_lai (đo thật), ly_do, trace_id | Khi làm lại xong một ca trợ lý trả lời sai |
+| `handoff_to_staff` | Agent | request_id, reason (het_lan_chay / thieu_du_lieu / ngoai_pham_vi), tom_tat, trace_id | Khi chuyển yêu cầu cho nhân viên |
+| `refund_ledger_write` | Dịch vụ sổ cái | request_id, idempotency_key, so_tien, ket_qua, trace_id | Khi ghi khoản hoàn vào sổ cái |
+| `ticket_closed` | Hệ thống ticket | request_id, closed_at, trace_id | Khi yêu cầu được đóng |
+| `ticket_reopened` | Khách | request_id, reopened_at, reason, trace_id | Khi khách mở lại yêu cầu |
+| `audit_sample_checked` | Kế toán | request_id, so_tien_da_hoan, so_tien_dung, phien_ban_bang_gia, trace_id | Hằng tuần, mẫu 100 đơn |
 
 **Kiểm tra chéo:** với mỗi chỉ số ở bảng E1, ghi event dùng để tính. Chỉ số nào không tính được từ danh sách event thì chưa đo được.
 
-- ...
+- **Chính** (đóng trong 24 giờ, không mở lại trong 7 ngày): `refund_request_created.created_at` và `ticket_closed.closed_at` (≤ 24 giờ), không có `ticket_reopened` trong 7 ngày sau `closed_at`. Đo được.
+- **Dùng · bỏ qua gợi ý:** `staff_review_decision` có `quyet_dinh` là `sua` hoặc `bo`, chia tổng số `staff_review_decision`. Đo được.
+- **An toàn · mở lại trong 7 ngày:** số `ticket_reopened` trong 7 ngày, chia số `refund_request_created`. Đo được.
+- **Dùng · tự đề xuất:** `agent_suggestion_shown` nối với `refund_request_created` (lọc `arm = tro_ly`) qua `trace_id`. Đo được.
+- **An toàn · tự đề xuất:** `audit_sample_checked`. Đo được.
+- **Chi phí mỗi việc thành công (thay số simulated bằng số đo thật):** token và tool từ `agent_run_completed`, phút xem lại từ `staff_review_decision.phut_xem_lai`, phút làm lại từ `staff_rework_completed.phut_lam_lai`, việc thành công từ `ticket_closed` không có `ticket_reopened`. Đo được.
 
 ## E2 · Rủi ro kinh tế
 
