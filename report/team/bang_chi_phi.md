@@ -36,7 +36,9 @@ Số tính bằng `src/lab13.py`. Mọi con số tính từ cột `_simulated` g
 | quoc_te | 150 | 27,3% | 2,32 | 22.515 đ (simulated) | 1,88× (simulated) |
 | doi_tac | 68 | 54,4% | 1,88 | 10.215 đ (simulated) | 0,85× (simulated) |
 
-- Loại không đáng để trợ lý xử lý là `quoc_te` (`22.515 đ = 1,88×` của 12.000 đ [`simulated`], thành công chỉ `27,3%`); cho chạy lại tới 3 lần không giúp vì tỉ lệ `ok` giảm từ `30,0%` (lần 1) xuống `11,4%` (lần 2) và `2,2%` (lần 3). Loại `doi_tac` sát ngưỡng (`10.215 đ = 0,85×` [`simulated`], thành công `54,4%`) và có điều khoản riêng nên cũng loại khỏi phạm vi pilot.
+- Loại không đáng để trợ lý xử lý là `quoc_te`: `22.515 đ = 1,88×` của 12.000 đ [`simulated`], thành công chỉ `27,3%`.
+- Chạy lại tới 3 lần không giúp `quoc_te`: tỉ lệ `ok` giảm từ `30,0%` (lần 1) xuống `11,4%` (lần 2) và `2,2%` (lần 3), lỗi lặp lại nên chạy thêm chỉ tốn tiền.
+- `doi_tac` sát ngưỡng (`10.215 đ = 0,85×` [`simulated`], thành công `54,4%`) và có điều khoản riêng nên cũng loại khỏi phạm vi pilot.
 
 ## A4 · Chi phí cố định (phạm vi noi_dia + hang_nang)
 
