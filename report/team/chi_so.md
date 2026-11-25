@@ -19,6 +19,7 @@
 | Event | Ai tạo | Thuộc tính chính | Thời điểm |
 | --- | --- | --- | --- |
 | `refund_request_created` | App khách | request_id, loai, so_tien, depot, staff_id, arm (tro_ly / doi_chung), created_at, trace_id | Khi khách gửi yêu cầu |
+| `input_validation_failed` | Agent | request_id, truong_loi (ma_don / so_tai_khoan / ...), gia_tri_nhap, trace_id | Khi đầu vào của khách không đúng định dạng (ví dụ mã đơn sàn TMĐT thay vì mã vận đơn) |
 | `agent_run_completed` | Agent | request_id, attempt, tokens_in, tokens_out, tool_calls, status (ok / loi), trace_id | Sau **mỗi** lần chạy, kể cả lần lỗi |
 | `agent_suggestion_shown` | Giao diện nhân viên | request_id, staff_id, so_tien_de_xuat, trace_id | Khi gợi ý hiện ra cho nhân viên |
 | `staff_review_decision` | Nhân viên | request_id, staff_id, quyet_dinh (giu / sua / bo), phut_xem_lai (đo thật), trace_id | Khi nhân viên bấm giữ, sửa hoặc bỏ |
