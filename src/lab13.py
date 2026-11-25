@@ -4,7 +4,11 @@ Không cần khoá API. Điền các chỗ ghi VIẾT Ở ĐÂY (đánh dấu TO
 Bản gốc chưa sửa nằm ở lab13_starter.py.
 """
 import math
+from statistics import NormalDist
+
 import pandas as pd
+from statsmodels.stats.power import NormalIndPower
+from statsmodels.stats.proportion import proportion_effectsize
 
 # Bảng giá GIẢ ĐỊNH của lab (không phải giá thật của nhà cung cấp nào)
 GIA_VAO = 26        # đồng cho 1.000 token đầu vào
@@ -227,6 +231,93 @@ def in_b4(runs, reqs):
           f'{xem_lai / (xem_lai + so_lam_lai * PHUT_LAM_LAI_B4 * LUONG_PHUT + token_tool) * 100:.0f}%')
 
 
+# ---------- Nhiệm vụ D1 · Cỡ mẫu và thiết kế cụm ----------
+BASELINE_CHINH = 0.70
+ALPHA_D1 = 0.05
+POWER_D1 = 0.80
+ICC_D1 = 0.02
+TONG_NHAN_VIEN = 40
+SO_DEPOT_MOI_NHOM = 6
+
+
+def co_mau(p1, p2, alpha=ALPHA_D1, power=POWER_D1):
+    """Cỡ mẫu mỗi nhóm khi so hai tỉ lệ độc lập theo công thức chuẩn của lab."""
+    za = NormalDist().inv_cdf(1 - alpha / 2)
+    zb = NormalDist().inv_cdf(power)
+    pb = (p1 + p2) / 2
+    tu_so = (za * math.sqrt(2 * pb * (1 - pb))
+             + zb * math.sqrt(p1 * (1 - p1) + p2 * (1 - p2))) ** 2
+    return math.ceil(tu_so / (p2 - p1) ** 2)
+
+
+def he_so_thiet_ke(m, icc=ICC_D1):
+    """Hệ số thiết kế (Design Effect) khi chia ngẫu nhiên theo cụm kích thước m."""
+    return 1 + (m - 1) * icc
+
+
+def co_mau_hieu_dung(so_cum, m, icc=ICC_D1):
+    """Cỡ mẫu hiệu dụng mỗi nhóm khi có so_cum cụm, mỗi cụm m yêu cầu."""
+    return so_cum * m / he_so_thiet_ke(m, icc)
+
+
+def so_yc_moi_cum_toi_thieu(n_muc_tieu, so_cum, icc=ICC_D1):
+    """Số yêu cầu tối thiểu trên mỗi cụm để cỡ mẫu hiệu dụng đạt n_muc_tieu."""
+    mau = so_cum - n_muc_tieu * icc
+    if mau <= 0:
+        return None  # vượt trần lý thuyết so_cum / icc
+    return math.ceil(n_muc_tieu * (1 - icc) / mau)
+
+
+def in_d1(reqs):
+    """Tính và in 5 câu cỡ mẫu D1, power ở mức 5 điểm và tỉ lệ mở lại nền."""
+    print('\n=== D1 · Cỡ mẫu và thiết kế cụm (alpha=0,05, power=0,80, ICC=0,02) ===')
+    n5 = co_mau(BASELINE_CHINH, BASELINE_CHINH + 0.05)
+    n5_sm = math.ceil(NormalIndPower().solve_power(
+        proportion_effectsize(BASELINE_CHINH + 0.05, BASELINE_CHINH),
+        alpha=ALPHA_D1, power=POWER_D1,
+    ))
+    print(f'a) Chia theo yêu cầu (+5 điểm: 0,70 -> 0,75): {n5:,} yêu cầu/nhóm'
+          f' (NormalIndPower: {n5_sm:,})')
+
+    de_75 = he_so_thiet_ke(75)
+    n_theo_nv = math.ceil(n5 * de_75)
+    nv_moi_nhom = math.ceil(n_theo_nv / 75)
+    print(f'b) Theo nhân viên (m=75): DE={de_75:.2f} -> {n_theo_nv:,} yêu cầu/nhóm'
+          f' -> {nv_moi_nhom} NV/nhóm (tổng {nv_moi_nhom * 2} > {TONG_NHAN_VIEN}: không đủ người)')
+
+    tran_nv = TONG_NHAN_VIEN // 2 / ICC_D1
+    tran_depot = SO_DEPOT_MOI_NHOM / ICC_D1
+    print(f'c) 20 nhân viên/nhóm: cỡ mẫu hiệu dụng tối đa c/ICC = {tran_nv:,.0f} < {n5:,}'
+          f' -> không đạt mức chênh 5 điểm')
+    print(f'd) 6 depot/nhóm: cỡ mẫu hiệu dụng tối đa c/ICC = {tran_depot:,.0f} < {n5:,}'
+          f' (và 6 < 20 cụm tối thiểu -> loại)')
+
+    n6 = co_mau(BASELINE_CHINH, BASELINE_CHINH + 0.06)
+    n6_sm = math.ceil(NormalIndPower().solve_power(
+        proportion_effectsize(BASELINE_CHINH + 0.06, BASELINE_CHINH),
+        alpha=ALPHA_D1, power=POWER_D1,
+    ))
+    m_min = so_yc_moi_cum_toi_thieu(n6, TONG_NHAN_VIEN // 2)
+    de_6 = he_so_thiet_ke(m_min)
+    n_eff_6 = co_mau_hieu_dung(TONG_NHAN_VIEN // 2, m_min)
+    power_o_5 = NormalIndPower().power(
+        proportion_effectsize(BASELINE_CHINH + 0.05, BASELINE_CHINH),
+        nobs1=n6, alpha=ALPHA_D1,
+    )
+    print(f'e) Mức chênh 6 điểm ({n6:,}/nhóm; NormalIndPower: {n6_sm:,}), 20 NV/nhóm:'
+          f' cần m >= {m_min} yêu cầu/người (DE={de_6:.2f}, n_hiệu_dụng={n_eff_6:.1f})')
+    print(f'   Đánh đổi: nếu tác động thật chỉ là +5 điểm, power tại n={n6} còn {power_o_5:.2f}'
+          f' ({power_o_5 * 100:.1f}%)')
+
+    mo_lai_all = reqs['mo_lai_trong_7_ngay'].mean()
+    so_ml_all = int(reqs['mo_lai_trong_7_ngay'].sum())
+    r_pv = reqs[reqs['loai'].isin(PHAM_VI)]
+    mo_lai_pv = r_pv['mo_lai_trong_7_ngay'].mean()
+    so_ml_pv = int(r_pv['mo_lai_trong_7_ngay'].sum())
+    print(f'Tỉ lệ mo_lai_trong_7_ngay hiện tại: {mo_lai_all * 100:.2f}% ({so_ml_all}/{len(reqs)}) toàn mẫu;'
+          f' {mo_lai_pv * 100:.2f}% ({so_ml_pv}/{len(r_pv)}) trong phạm vi noi_dia + hang_nang')
+
+
 if __name__ == '__main__':
     import sys
     sys.stdout.reconfigure(encoding='utf-8')  # tránh lỗi in tiếng Việt trên console Windows
@@ -243,6 +334,4 @@ if __name__ == '__main__':
     in_b1_b2(runs, reqs)
     in_b3(runs, reqs)
     in_b4(runs, reqs)
-    # TODO CP4 · Nhiệm vụ D: cỡ mẫu.
-    #   from statsmodels.stats.proportion import proportion_effectsize
-    #   from statsmodels.stats.power import NormalIndPower
+    in_d1(reqs)
