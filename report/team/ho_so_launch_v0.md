@@ -14,6 +14,9 @@ Nhóm: Rua · Lớp: L3B
 | 6 · Pilot plan | Chia theo nhân viên 20 + 20, ngẫu nhiên phân tầng theo depot, phạm vi noi_dia + hang_nang; mde 0,06 (859/nhóm, DE 6,96, m ≥ 299 yêu cầu/nhân viên) vì 40 nhân viên không đủ cho 5 điểm (tối đa 1.000 < 1.251). Bất lợi: nếu tác động thật là 5 điểm, power chỉ 0,64. 4 luật dừng có ngưỡng, thời hạn, người dừng (mở lại: đối chứng +2 điểm hoặc trần 6%, hiện 3,97%); quyết định 2027-01-11 (`pilot_plan.yaml`) | Xong, có bằng chứng | Giám đốc vận hành |
 | 7 · Rủi ro kinh tế | (1) Làm lại gấp đôi → 6.787 đ (+51,8%); (2) xem lại 100% kéo dài → 11.743 đ = 0,98× (1,03× với 15,3 phút làm lại/ca) — gần hết phần tiết kiệm; (3) khối lượng còn một nửa → cố định 2.370 đ/việc, 5.784 đ = 0,48× [simulated]. Chi tiết dấu hiệu theo dõi và hành động: `chi_so.md` mục E2 | Giả lập | PM trợ lý hoàn phí |
 
-**Đề xuất:** Go · Go có điều kiện · No-go (giữ một). Go có điều kiện: ghi từng điều kiện, người phụ trách, ngày kiểm tra. No-go: ghi việc phải làm để quay lại cổng.
+**Đề xuất: Go có điều kiện** cho pilot `noi_dia` + `hang_nang`, chia theo nhân viên 20 + 20, bắt đầu 2026-12-07, quyết định 2027-01-11 (theo `pilot_plan.yaml`). Con số bất lợi đã cân nhắc: xem lại 100% đưa chi phí lên 0,98–1,03× của 12.000 đ [simulated]; power chỉ 0,64 nếu tác động thật là 5 điểm; tỉ lệ mở lại hiện tại 3,97% trong phạm vi.
 
-- ...
+- Sửa khoá chống trùng (ca 20) và chỉ báo "đã hoàn" khi sổ cái trả ok (ca 7); đối soát mỗi giờ chạy thử 3 ngày với 0 ca lệch · Kỹ sư trưởng agent · kiểm tra 2026-12-04.
+- Ký chấp nhận mức chênh 6 điểm (mde 0,06, 859 yêu cầu mỗi nhóm) và power 0,64 ở mức 5 điểm · Giám đốc vận hành · kiểm tra 2026-12-02.
+- Bật đủ 11 event có `trace_id` trong `chi_so.md` trước ngày bắt đầu; thay phút `_simulated` bằng phút xem lại, làm lại đo thật sau tuần 1 · PM trợ lý hoàn phí · kiểm tra 2026-12-04 và 2026-12-14.
+- Có kế hoạch giảm tỉ lệ xem lại theo bậc (khi tỉ lệ sửa + bỏ < 15%) và mục tiêu mỗi lần xem lại ≤ 4,8 phút, vì xem lại 100% không tiết kiệm (B4, simulated) · Trưởng nhóm CSKH · kiểm tra 2026-12-04.
