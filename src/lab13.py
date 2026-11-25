@@ -1,6 +1,6 @@
 """Lab 13 · Định giá agent và lập kế hoạch pilot (Gate 2a) — bài làm của nhóm (file nộp).
 Chạy trong thư mục src/: python3 lab13.py   (cần pandas; Nhiệm vụ D cần thêm statsmodels)
-Không cần khoá API. Điền các chỗ ghi VIẾT Ở ĐÂY (đánh dấu TODO CP1…CP4). Dữ liệu trong hai file CSV là giả lập.
+Không cần khoá API. Đã hoàn thành A1–A4, B1–B4, E1, D1. Dữ liệu trong hai file CSV là giả lập.
 Bản gốc chưa sửa nằm ở lab13_starter.py.
 """
 import math
@@ -19,7 +19,6 @@ BASELINE = 12000    # đồng cho 1 yêu cầu khi nhân viên tự làm (6 phú
 
 
 # ---------- Nhiệm vụ A1 · Kinh tế của việc chạy lại ----------
-# TODO CP1: viết ba hàm dưới đây cho tới khi kiem_tra_dap_an_biet_truoc() in ĐẠT.
 def so_lan_chay_ky_vong(p, k=None):
     """Số lần chạy trung bình cho 1 yêu cầu khi mỗi lần đúng với xác suất p.
     k = số lần chạy tối đa; k=None nghĩa là chạy lại đến khi đúng."""
@@ -53,7 +52,6 @@ def kiem_tra_dap_an_biet_truoc():
 
 
 # ---------- Nhiệm vụ A2 · Mô hình chi phí từ trace ----------
-# TODO CP1: viết mo_hinh; CP2 gọi lại hàm này với tham số giá và hệ số đã đổi.
 def mo_hinh(runs, reqs, gia_vao=26, gia_ra=130, gia_tool=15, luong_phut=2000,
             he_so_xem_lai=1.0, he_so_lam_lai=1.0, max_lan_chay=None):
     """Trả về dict gồm: token, tool, xem_lai, lam_lai, tong, thanh_cong, cps (chi phí mỗi việc thành công).
