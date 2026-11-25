@@ -13,8 +13,8 @@
 | --: | ------ | ---- | ----- | ------ | ------- |
 |   1 | Vũ Nam Khánh | 2A202604112 | 26ai.khanhvn@vinuni.edu.vn | khanhvnm | Người viết code |
 |   2 | Phạm Duy Thành | 2A202604075 |       |        | Người kiểm số |
-|   3 | Nguyễn Tuấn Anh | 2A202604089 | 26ai.anhnt14@vinuni.edu.vn      | TuanAnhNg131       | Người gắn nhãn 1 |
-|   4 | Đào Hồng Thắng | 2A202604076 |       |        | Người gắn nhãn 2, kiêm giữ hồ sơ |
+|   3 | Nguyễn Tuấn Anh | 2A202604089 | 26ai.anhnt14@vinuni.edu.vn | TuanAnhNg131 | Người gắn nhãn 1 |
+|   4 | Đào Hồng Thắng | 2A202604076 |26ai.thangdh2@vinuni.edu.vn |myblue-ai| Người gắn nhãn 2, kiêm giữ hồ sơ |
 
 Bốn vai của lab:
 
