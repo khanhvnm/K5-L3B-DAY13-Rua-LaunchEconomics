@@ -318,6 +318,28 @@ def in_d1(reqs):
           f' {mo_lai_pv * 100:.2f}% ({so_ml_pv}/{len(r_pv)}) trong phạm vi noi_dia + hang_nang')
 
 
+# ---------- Nhiệm vụ E1 · Tính thử ba chỉ số ----------
+def in_e1(reqs):
+    """Ba chỉ số trên mẫu chạy thử. Không dùng cột _simulated nên không cần nhãn simulated.
+    Đợt chạy thử không có nhóm đối chứng: chỉ viết "chỉ số trong đợt chạy thử là ...". """
+    print('\n=== E1 · Ba chỉ số trong đợt chạy thử ===')
+    chinh = (reqs['dong_trong_24h'] == 1) & (reqs['mo_lai_trong_7_ngay'] == 0)
+    xem = reqs[reqs['duoc_xem_lai'] == 1]
+    bo_qua = xem['quyet_dinh_xem_lai'].isin(['sua', 'bo'])
+    mo_lai = reqs['mo_lai_trong_7_ngay'] == 1
+    pv = reqs[reqs['loai'].isin(PHAM_VI)]
+    mo_lai_pv = pv['mo_lai_trong_7_ngay'] == 1
+    print(f'Chính · đóng 24h và không mở lại 7 ngày: {chinh.mean() * 100:.2f}% ({chinh.sum()}/{len(reqs)})')
+    print(f'Dùng  · bỏ qua gợi ý (sua + bo):          {bo_qua.mean() * 100:.2f}% ({bo_qua.sum()}/{len(xem)})')
+    print(f'An toàn · mở lại trong 7 ngày:            {mo_lai.mean() * 100:.2f}% ({mo_lai.sum()}/{len(reqs)});'
+          f' phạm vi noi_dia + hang_nang {mo_lai_pv.mean() * 100:.2f}% ({mo_lai_pv.sum()}/{len(pv)})')
+    # Mức hiện tại trong phạm vi pilot, làm mốc cho dấu hiệu theo dõi ở E2.
+    lam_lai_pv = pv['ket_qua'] == 'lam_lai'
+    xem_pv = pv['duoc_xem_lai'] == 1
+    print(f'Mốc E2 (phạm vi): tỉ lệ làm lại {lam_lai_pv.mean() * 100:.1f}% ({lam_lai_pv.sum()}/{len(pv)});'
+          f' tỉ lệ được xem lại {xem_pv.mean() * 100:.1f}% ({xem_pv.sum()}/{len(pv)})')
+
+
 if __name__ == '__main__':
     import sys
     sys.stdout.reconfigure(encoding='utf-8')  # tránh lỗi in tiếng Việt trên console Windows
@@ -334,4 +356,5 @@ if __name__ == '__main__':
     in_b1_b2(runs, reqs)
     in_b3(runs, reqs)
     in_b4(runs, reqs)
+    in_e1(reqs)
     in_d1(reqs)
