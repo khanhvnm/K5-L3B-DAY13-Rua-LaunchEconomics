@@ -5,7 +5,7 @@
 - Tên nhóm: Rua
 - Lớp: L3B
 - Repo nhóm: `K5-L3B-DAY13-Rua-LaunchEconomics`
-- URL repo, nhánh nộp, commit chốt: https://github.com/khanhvnm/K5-L3B-DAY13-Rua-LaunchEconomics · nhánh `main` · commit chốt: (điền mã commit cuối sau khi push)
+- URL repo, nhánh nộp, commit chốt: https://github.com/khanhvnm/K5-L3B-DAY13-Rua-LaunchEconomics · nhánh `main` · commit chốt: `25a48ff`
 
 ## Thành viên
 
